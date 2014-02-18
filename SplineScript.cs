@@ -27,6 +27,42 @@ public class SplineScript : MonoBehaviour {
 			Debug.DrawLine(tp0, tp1);
 			tp0 = tp1;
 		}
+
+		MeshFilter mf = GetComponent(typeof(MeshFilter)) as MeshFilter;
+		Mesh mesh = mf.sharedMesh;
+		if (mesh == null)
+		{
+			mf.sharedMesh = new Mesh();
+			mesh = mf.sharedMesh;
+			mesh.name = "railway";
+		}
+		mesh.Clear();
+
+		Vector3[] vertices = new Vector3[4];
+		vertices[0] = new Vector3(0, 0, 0);
+		vertices[1] = new Vector3(1, 0, 0);
+		vertices[2] = new Vector3(0, 0, 1);
+		vertices[3] = new Vector3(1, 0, 1);
+		mesh.vertices = vertices;
+
+		Vector2[] uv = new Vector2[4];
+		uv[0] = new Vector2(0, 0);
+		uv[1] = new Vector2(0, 1);
+		uv[2] = new Vector2(1, 0);
+		uv[3] = new Vector2(1, 1);
+		mesh.uv = uv;
+
+		int[] triangles = new int[6];
+		triangles[0] = 0;
+		triangles[1] = 2;
+		triangles[2] = 1;
+		triangles[3] = 1;
+		triangles[4] = 2;
+		triangles[5] = 3;
+		mesh.triangles = triangles;
+
+		mesh.RecalculateNormals();
+
 	}
 
 	Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
